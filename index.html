@@ -1,19 +1,399 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Sample HTML Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anatomy Guesser - All the Parts of Us</title>
+    <link rel="stylesheet" href="guesser.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a> |
-        <a href="about.html">About</a> |
-        <a href="contact.html">Contact</a>
-    </nav>
-    <h1>Welcome to Anatomy Guesser</h1>
-    <p>Learn where your bones are located in the body!</p>
-    <p>
-        This is a simple web application designed to help users identify and learn about different bones in the human body. Click on the image below to start guessing!
-    </p>
-    <img src="images/skeleton.png" alt="Skeleton Image"/>
-    
+    <!-- Header Navigation -->
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <h1>🫀 Anatomy Guesser</h1>
+                <p class="tagline">All the parts of us</p>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Learn</a>
+                <a href="about.html">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Profile Section with Points & Streaks -->
+    <div class="profile-section">
+        <div class="profile-stats">
+            <div class="stat-item">
+                <span class="stat-icon">⭐</span>
+                <span class="stat-value" id="score">0</span>
+                <span class="stat-label">XP</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">🔥</span>
+                <span class="stat-value" id="streak">0</span>
+                <span class="stat-label">Day Streak</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">✓</span>
+                <span class="stat-value" id="correct">0</span>
+                <span class="stat-label">Correct</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Left Navigation Panel -->
+        <aside class="left-panel">
+            <h2>Learning Mode</h2>
+            <div class="learning-modes">
+                <button class="mode-btn active" data-mode="quiz" id="quiz-mode">
+                    <span class="mode-icon">📝</span>
+                    <span>Quiz Mode</span>
+                </button>
+                <button class="mode-btn" data-mode="video" id="video-mode">
+                    <span class="mode-icon">▶️</span>
+                    <span>Learn w/ Video</span>
+                </button>
+                <button class="mode-btn" data-mode="audio" id="audio-mode">
+                    <span class="mode-icon">🔊</span>
+                    <span>Learn w/ Audio</span>
+                </button>
+                <button class="mode-btn" data-mode="flashcard" id="flashcard-mode">
+                    <span class="mode-icon">🎴</span>
+                    <span>Flashcards</span>
+                </button>
+            </div>
+
+            <div class="toggle-section">
+                <h3>View Type</h3>
+                <div class="toggle-container">
+                    <button class="toggle-btn active" id="bones-toggle">
+                        🦴 Bones
+                    </button>
+                    <button class="toggle-btn" id="organs-toggle">
+                        🫁 Organs
+                    </button>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <h3>System Progress</h3>
+                <div class="system-item">
+                    <span>Skeletal System</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%"></div>
+                    </div>
+                    <span class="progress-text">30%</span>
+                </div>
+                <div class="system-item locked">
+                    <span>🔒 Muscular System</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <span class="progress-text">Locked</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Current Mode Display -->
+            <div class="mode-display" id="mode-display">
+                <!-- Quiz Mode (default) -->
+                <div class="quiz-content" id="quiz-content">
+                    <div class="challenge-card">
+                        <h2>🎯 Challenge</h2>
+                        <div class="question" id="question">
+                            Click on the <strong id="target-name">Femur</strong> in the diagram
+                        </div>
+                        <div class="hint" id="hint">
+                            💡 Hint: It's the longest bone in the human body
+                        </div>
+                    </div>
+
+                    <!-- Interactive Body Diagram -->
+                    <div class="body-diagram-container">
+                        <svg id="body-svg" viewBox="0 0 400 800" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background -->
+                            <rect width="400" height="800" fill="#f0f4f8"/>
+                            
+                            <!-- SKELETON STRUCTURE -->
+                            <g id="skeleton" stroke="#333" stroke-width="2" fill="none">
+                                <!-- Skull -->
+                                <g id="skull-visual">
+                                    <circle cx="200" cy="50" r="35" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                    <!-- Eye sockets -->
+                                    <circle cx="185" cy="45" r="8" fill="#333"/>
+                                    <circle cx="215" cy="45" r="8" fill="#333"/>
+                                    <!-- Jaw -->
+                                    <path d="M 170 60 Q 200 75 230 60" stroke="#333" fill="#f5f5dc" stroke-width="2"/>
+                                    <line x1="170" y1="60" x2="170" y2="70" stroke="#333" stroke-width="2"/>
+                                    <line x1="230" y1="60" x2="230" y2="70" stroke="#333" stroke-width="2"/>
+                                    <path d="M 170 70 Q 200 78 230 70" stroke="#333" fill="#f5f5dc" stroke-width="2"/>
+                                </g>
+                                
+                                <!-- Cervical Spine (Neck) -->
+                                <g id="neck-spine">
+                                    <rect x="195" y="85" width="10" height="30" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                </g>
+                                
+                                <!-- Clavicles (Collar bones) -->
+                                <g id="clavicles">
+                                    <line x1="200" y1="120" x2="145" y2="135" stroke="#f5f5dc" stroke-width="8" stroke-linecap="round"/>
+                                    <line x1="200" y1="120" x2="255" y2="135" stroke="#f5f5dc" stroke-width="8" stroke-linecap="round"/>
+                                </g>
+                                
+                                <!-- Scapulas (Shoulder blades) -->
+                                <g id="scapulas">
+                                    <ellipse cx="155" cy="150" rx="20" ry="30" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                    <ellipse cx="245" cy="150" rx="20" ry="30" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                </g>
+                                
+                                <!-- Rib Cage -->
+                                <g id="ribs-visual">
+                                    <!-- Left ribs -->
+                                    <path d="M 200 140 Q 150 160 155 190" stroke="#f5f5dc" stroke-width="5" fill="none"/>
+                                    <path d="M 200 150 Q 145 170 150 205" stroke="#f5f5dc" stroke-width="5" fill="none"/>
+                                    <path d="M 200 160 Q 143 185 148 220" stroke="#f5f5dc" stroke-width="5" fill="none"/>
+                                    <path d="M 200 170 Q 145 195 150 235" stroke="#f5f5dc" stroke-width="5" fill="none"/>
+                                    <path d="M 200 180 Q 148 205 155 245" stroke="#f5f5dc" stroke-width="5" fill="none"/>
+                                    <path d="M 200 190 Q 150 210 160 250" stroke="#f5f5dc" stroke-width="4" fill="none"/>
+                                    
+                                    <!-- Right ribs -->
+                                    <path d="M 200 140 Q 250 160 245 190" stroke="#f5f5dc" stroke-width="5" fill="none"/>
+                                    <path d="M 200 150 Q 255 170 250 205" stroke="#f5f5dc" stroke-width="5" fill="none"/>
+                                    <path d="M 200 160 Q 257 185 252 220" stroke="#f5f5dc" stroke-width="5" fill="none"/>
+                                    <path d="M 200 170 Q 255 195 250 235" stroke="#f5f5dc" stroke-width="5" fill="none"/>
+                                    <path d="M 200 180 Q 252 205 245 245" stroke="#f5f5dc" stroke-width="5" fill="none"/>
+                                    <path d="M 200 190 Q 250 210 240 250" stroke="#f5f5dc" stroke-width="4" fill="none"/>
+                                    
+                                    <!-- Sternum (breast bone) -->
+                                    <rect x="195" y="140" width="10" height="110" fill="#f5f5dc" stroke="#333" stroke-width="2" rx="3"/>
+                                </g>
+                                
+                                <!-- Spine (Vertebrae) -->
+                                <g id="spine-visual">
+                                    <rect x="193" y="115" width="14" height="240" fill="#f5f5dc" stroke="#333" stroke-width="2" rx="3"/>
+                                    <!-- Vertebrae segments -->
+                                    <line x1="193" y1="135" x2="207" y2="135" stroke="#333" stroke-width="1"/>
+                                    <line x1="193" y1="155" x2="207" y2="155" stroke="#333" stroke-width="1"/>
+                                    <line x1="193" y1="175" x2="207" y2="175" stroke="#333" stroke-width="1"/>
+                                    <line x1="193" y1="195" x2="207" y2="195" stroke="#333" stroke-width="1"/>
+                                    <line x1="193" y1="215" x2="207" y2="215" stroke="#333" stroke-width="1"/>
+                                    <line x1="193" y1="235" x2="207" y2="235" stroke="#333" stroke-width="1"/>
+                                    <line x1="193" y1="255" x2="207" y2="255" stroke="#333" stroke-width="1"/>
+                                    <line x1="193" y1="275" x2="207" y2="275" stroke="#333" stroke-width="1"/>
+                                    <line x1="193" y1="295" x2="207" y2="295" stroke="#333" stroke-width="1"/>
+                                    <line x1="193" y1="315" x2="207" y2="315" stroke="#333" stroke-width="1"/>
+                                    <line x1="193" y1="335" x2="207" y2="335" stroke="#333" stroke-width="1"/>
+                                </g>
+                                
+                                <!-- Pelvis (Hip bones) -->
+                                <g id="pelvis-visual">
+                                    <ellipse cx="200" cy="355" rx="70" ry="40" fill="#f5f5dc" stroke="#333" stroke-width="3"/>
+                                    <!-- Hip sockets -->
+                                    <circle cx="165" cy="370" r="12" fill="#333" stroke="#333" stroke-width="2"/>
+                                    <circle cx="235" cy="370" r="12" fill="#333" stroke="#333" stroke-width="2"/>
+                                </g>
+                                
+                                <!-- Arms -->
+                                <g id="arms">
+                                    <!-- Left Humerus -->
+                                    <line x1="145" y1="140" x2="135" y2="240" stroke="#f5f5dc" stroke-width="12" stroke-linecap="round"/>
+                                    <circle cx="145" cy="140" r="8" fill="#333"/>
+                                    
+                                    <!-- Left Radius & Ulna -->
+                                    <line x1="135" y1="240" x2="125" y2="330" stroke="#f5f5dc" stroke-width="9" stroke-linecap="round"/>
+                                    <line x1="135" y1="245" x2="130" y2="330" stroke="#f5f5dc" stroke-width="8" stroke-linecap="round"/>
+                                    <circle cx="135" cy="240" r="7" fill="#333"/>
+                                    
+                                    <!-- Left Hand -->
+                                    <ellipse cx="127" cy="350" rx="12" ry="20" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                    
+                                    <!-- Right Humerus -->
+                                    <line x1="255" y1="140" x2="265" y2="240" stroke="#f5f5dc" stroke-width="12" stroke-linecap="round"/>
+                                    <circle cx="255" cy="140" r="8" fill="#333"/>
+                                    
+                                    <!-- Right Radius & Ulna -->
+                                    <line x1="265" y1="240" x2="275" y2="330" stroke="#f5f5dc" stroke-width="9" stroke-linecap="round"/>
+                                    <line x1="265" y1="245" x2="270" y2="330" stroke="#f5f5dc" stroke-width="8" stroke-linecap="round"/>
+                                    <circle cx="265" cy="240" r="7" fill="#333"/>
+                                    
+                                    <!-- Right Hand -->
+                                    <ellipse cx="273" cy="350" rx="12" ry="20" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                </g>
+                                
+                                <!-- Legs -->
+                                <g id="legs">
+                                    <!-- Left Femur -->
+                                    <line x1="165" y1="375" x2="175" y2="520" stroke="#f5f5dc" stroke-width="16" stroke-linecap="round"/>
+                                    
+                                    <!-- Left Patella (kneecap) -->
+                                    <circle cx="175" cy="520" r="10" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                    
+                                    <!-- Left Tibia & Fibula -->
+                                    <line x1="175" y1="530" x2="175" y2="680" stroke="#f5f5dc" stroke-width="13" stroke-linecap="round"/>
+                                    <line x1="178" y1="530" x2="180" y2="680" stroke="#f5f5dc" stroke-width="8" stroke-linecap="round"/>
+                                    
+                                    <!-- Left Foot -->
+                                    <ellipse cx="175" cy="705" rx="20" ry="15" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                    <rect x="175" y="700" width="25" height="10" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                    
+                                    <!-- Right Femur -->
+                                    <line x1="235" y1="375" x2="225" y2="520" stroke="#f5f5dc" stroke-width="16" stroke-linecap="round"/>
+                                    
+                                    <!-- Right Patella (kneecap) -->
+                                    <circle cx="225" cy="520" r="10" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                    
+                                    <!-- Right Tibia & Fibula -->
+                                    <line x1="225" y1="530" x2="225" y2="680" stroke="#f5f5dc" stroke-width="13" stroke-linecap="round"/>
+                                    <line x1="222" y1="530" x2="220" y2="680" stroke="#f5f5dc" stroke-width="8" stroke-linecap="round"/>
+                                    
+                                    <!-- Right Foot -->
+                                    <ellipse cx="225" cy="705" rx="20" ry="15" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                    <rect x="200" y="700" width="25" height="10" fill="#f5f5dc" stroke="#333" stroke-width="2"/>
+                                </g>
+                            </g>
+                            
+                            <!-- ORGANS VIEW (hidden by default) -->
+                            <g id="organs-view" style="display: none;">
+                                <!-- Body outline for organs -->
+                                <ellipse cx="200" cy="60" rx="40" ry="45" fill="#ffd6a5" stroke="#333" stroke-width="2" opacity="0.3"/>
+                                <ellipse cx="200" cy="220" rx="90" ry="140" fill="#ffd6a5" stroke="#333" stroke-width="2" opacity="0.3"/>
+                                <ellipse cx="200" cy="450" rx="80" ry="100" fill="#ffd6a5" stroke="#333" stroke-width="2" opacity="0.3"/>
+                                
+                                <!-- Brain -->
+                                <g id="brain-visual">
+                                    <ellipse cx="200" cy="55" rx="35" ry="30" fill="#ff9999" stroke="#cc0000" stroke-width="2"/>
+                                    <path d="M 165 55 Q 175 40 185 55" fill="none" stroke="#cc0000" stroke-width="2"/>
+                                    <path d="M 185 55 Q 195 40 205 55" fill="none" stroke="#cc0000" stroke-width="2"/>
+                                    <path d="M 205 55 Q 215 40 225 55" fill="none" stroke="#cc0000" stroke-width="2"/>
+                                </g>
+                                
+                                <!-- Heart -->
+                                <g id="heart-visual">
+                                    <path d="M 200 200 L 180 170 Q 170 155 185 155 Q 200 155 200 170 Q 200 155 215 155 Q 230 155 220 170 Z" fill="#ff6b6b" stroke="#cc0000" stroke-width="2"/>
+                                </g>
+                                
+                                <!-- Lungs -->
+                                <g id="lungs-visual">
+                                    <ellipse cx="160" cy="200" rx="30" ry="60" fill="#ffb3ba" stroke="#cc6666" stroke-width="2"/>
+                                    <ellipse cx="240" cy="200" rx="30" ry="60" fill="#ffb3ba" stroke="#cc6666" stroke-width="2"/>
+                                </g>
+                                
+                                <!-- Liver -->
+                                <g id="liver-visual">
+                                    <ellipse cx="220" cy="260" rx="50" ry="35" fill="#8b4513" stroke="#654321" stroke-width="2"/>
+                                </g>
+                                
+                                <!-- Stomach -->
+                                <g id="stomach-visual">
+                                    <ellipse cx="180" cy="280" rx="35" ry="40" fill="#ffcc99" stroke="#cc9966" stroke-width="2"/>
+                                </g>
+                                
+                                <!-- Intestines -->
+                                <g id="intestines-visual">
+                                    <path d="M 160 320 Q 180 340 160 360 Q 140 380 160 400 Q 180 420 200 400 Q 220 380 240 400 Q 260 420 240 360 Q 220 340 240 320" 
+                                          fill="#ffddaa" stroke="#cc9966" stroke-width="3"/>
+                                </g>
+                            </g>
+                            
+                            <!-- BONES - Clickable regions -->
+                            <g id="bones-regions">
+                                <!-- Skull/Brain -->
+                                <circle cx="200" cy="60" r="40" class="clickable-region bones-region" data-name="skull" opacity="0"/>
+                                <!-- Clavicle -->
+                                <rect x="150" y="115" width="100" height="25" class="clickable-region bones-region" data-name="clavicle" opacity="0"/>
+                                <!-- Ribs -->
+                                <ellipse cx="200" cy="200" rx="70" ry="90" class="clickable-region bones-region" data-name="ribs" opacity="0"/>
+                                <!-- Humerus (arms) -->
+                                <rect x="125" y="140" width="30" height="100" class="clickable-region bones-region" data-name="humerus" opacity="0"/>
+                                <rect x="245" y="140" width="30" height="100" class="clickable-region bones-region" data-name="humerus" opacity="0"/>
+                                <!-- Spine -->
+                                <rect x="190" y="110" width="20" height="250" class="clickable-region bones-region" data-name="spine" opacity="0"/>
+                                <!-- Pelvis -->
+                                <ellipse cx="200" cy="360" rx="75" ry="45" class="clickable-region bones-region" data-name="pelvis" opacity="0"/>
+                                <!-- Femur (thighs) -->
+                                <rect x="155" y="375" width="30" height="145" class="clickable-region bones-region" data-name="femur" opacity="0"/>
+                                <rect x="215" y="375" width="30" height="145" class="clickable-region bones-region" data-name="femur" opacity="0"/>
+                                <!-- Tibia (shins) -->
+                                <rect x="165" y="530" width="25" height="150" class="clickable-region bones-region" data-name="tibia" opacity="0"/>
+                                <rect x="210" y="530" width="25" height="150" class="clickable-region bones-region" data-name="tibia" opacity="0"/>
+                            </g>
+                            
+                            <!-- ORGANS - Clickable regions -->
+                            <g id="organs-regions" style="display: none;">
+                                <!-- Brain -->
+                                <circle cx="200" cy="55" r="40" class="clickable-region organs-region" data-name="brain" opacity="0"/>
+                                <!-- Heart -->
+                                <ellipse cx="200" cy="180" rx="40" ry="45" class="clickable-region organs-region" data-name="heart" opacity="0"/>
+                                <!-- Lungs -->
+                                <ellipse cx="200" cy="200" rx="90" ry="65" class="clickable-region organs-region" data-name="lungs" opacity="0"/>
+                                <!-- Liver -->
+                                <ellipse cx="220" cy="260" rx="55" ry="40" class="clickable-region organs-region" data-name="liver" opacity="0"/>
+                                <!-- Stomach -->
+                                <ellipse cx="180" cy="280" rx="40" ry="45" class="clickable-region organs-region" data-name="stomach" opacity="0"/>
+                                <!-- Intestines -->
+                                <ellipse cx="200" cy="360" rx="60" ry="60" class="clickable-region organs-region" data-name="intestines" opacity="0"/>
+                            </g>
+                            
+                            <!-- User click marker -->
+                            <circle id="user-marker" r="8" fill="#ff4444" opacity="0" stroke="#fff" stroke-width="2"/>
+                            <circle id="correct-marker" r="8" fill="#22c55e" opacity="0" stroke="#fff" stroke-width="2"/>
+                        </svg>
+                    </div>                    <div class="submit-container">
+                        <button class="submit-btn" id="submit-btn" disabled>Submit Answer</button>
+                        <button class="next-btn" id="next-btn" style="display: none;">Next Question</button>
+                    </div>
+                </div>
+
+                <!-- Video Mode -->
+                <div class="video-content hidden" id="video-content">
+                    <div class="video-player">
+                        <h2>📹 Video Learning</h2>
+                        <div class="placeholder-video">
+                            <p>🎬 Video player would appear here</p>
+                            <p>Learn about the skeletal system through engaging animations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audio Mode -->
+                <div class="audio-content hidden" id="audio-content">
+                    <div class="audio-player">
+                        <h2>🎧 Audio Learning</h2>
+                        <div class="placeholder-audio">
+                            <p>🔊 Audio player would appear here</p>
+                            <p>Listen to pronunciation and descriptions of anatomy terms</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcard Mode -->
+                <div class="flashcard-content hidden" id="flashcard-content">
+                    <div class="flashcard-container">
+                        <h2>🎴 Flashcards</h2>
+                        <div class="flashcard" id="flashcard">
+                            <div class="flashcard-front">
+                                <h3>Femur</h3>
+                                <p>Click to reveal answer</p>
+                            </div>
+                        </div>
+                        <div class="flashcard-controls">
+                            <button class="card-btn">Previous</button>
+                            <button class="card-btn">Flip Card</button>
+                            <button class="card-btn">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Area -->
+            <div class="feedback" id="feedback"></div>
+        </main>
+    </div>
+
+    <script src="guesser.js"></script>
 </body>
 </html>

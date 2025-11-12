@@ -1,14 +1,153 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>About Page</title>
-     <nav>
-        <a href="index.html">Home</a> |
-        <a href="about.html">About</a> |
-        <a href="contact.html">Contact</a>
-    </nav>
-    <p>
-        Our names are bleh bleh bleh
-    </p>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Anatomy Guesser</title>
+    <link rel="stylesheet" href="guesser.css">
+    <style>
+        .about-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-container h1 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .about-container h2 {
+            color: #333;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .team-member {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .team-member h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .feature-list li:before {
+            content: "✓ ";
+            color: #22c55e;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+    </style>
 </head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <h1>🫀 Anatomy Guesser</h1>
+                <p class="tagline">All the parts of us</p>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Learn</a>
+                <a href="about.html" class="active">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="about-container">
+        <h1>About Anatomy Guesser</h1>
+        
+        <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+            Anatomy Guesser is a <strong>Geoguessor for the Human Body</strong> - an interactive learning platform 
+            that transforms anatomy education from a passive chore into an active, gamified adventure.
+        </p>
+
+        <h2>🎯 The Problem We're Solving</h2>
+        <p>
+            Learning anatomy is traditionally hard, passive, and forgettable. Students rely on dense textbooks 
+            and flashcards that lead to knowledge quickly forgotten after exams. 2D diagrams make it difficult 
+            to understand spatial relationships within the complex, 3D system of the human body.
+        </p>
+
+        <h2>💡 Our Solution</h2>
+        <p>
+            We're applying the addictive discovery of Geoguessor and the proven motivational techniques of 
+            Duolingo to the geography of the human body. Instead of just memorizing names, users actively 
+            explore, locate, and identify structures, creating lasting spatial memory.
+        </p>
+
+        <h2>🧪 The Science Behind It</h2>
+        <ul class="feature-list">
+            <li><strong>Active Recall:</strong> Retrieve information rather than rereading, building stronger neural pathways</li>
+            <li><strong>Spaced Repetition:</strong> Re-introduce concepts right before you're likely to forget them</li>
+            <li><strong>Interleaving:</strong> Mix different systems to develop flexible, comprehensive understanding</li>
+            <li><strong>Gamification:</strong> XP points, streaks, and unlockable systems keep you motivated</li>
+        </ul>
+
+        <h2>👥 Team</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <h3>Maharsh Jani</h3>
+                <p>Developer</p>
+            </div>
+            <div class="team-member">
+                <h3>Maple Fan</h3>
+                <p>Designer</p>
+            </div>
+            <div class="team-member">
+                <h3>Ash Kansal</h3>
+                <p>Developer</p>
+            </div>
+            <div class="team-member">
+                <h3>Xinyu Zou</h3>
+                <p>Developer</p>
+            </div>
+        </div>
+
+        <h2>🎓 Target Audience</h2>
+        <p>
+            From the classroom to the living room - curious learners age 10+, students (high school, 
+            pre-med, nursing), educators, and health & fitness enthusiasts.
+        </p>
+
+        <h2>🚀 Future Vision</h2>
+        <ul class="feature-list">
+            <li>Augmented Reality (AR) mode to project virtual body in your room</li>
+            <li>Multiplayer "Anatomy Battles" for real-time challenges</li>
+            <li>Animated process modules (digestion, respiration, muscle contraction)</li>
+            <li>User-generated content for custom quizzes</li>
+            <li>Multiple body systems (circulatory, nervous, digestive, etc.)</li>
+        </ul>
+
+        <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: #f9fafb; border-radius: 12px;">
+            <h3 style="color: #667eea; margin-bottom: 1rem;">Ready to explore?</h3>
+            <a href="index.html" style="display: inline-block; padding: 1rem 2rem; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+                Start Learning →
+            </a>
+        </div>
+    </div>
+</body>
 </html>
